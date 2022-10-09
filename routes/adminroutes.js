@@ -62,10 +62,13 @@ check('password2', 'passwords do not match').custom((value, { req }) => (value =
 
 //logout process
 
-router.get('/logout', (req, res) => {
-    req.logout();
-    req.flash('success', 'your are logged out successfully');
-    res.redirect('/admin/login');
+router.get("/logout", (req, res) => {
+    req.logout(req.user, err => {
+        if(err) return next(err);
+        req.flash('success', 'your are logged out successfully');
+        res.redirect("/");
+      });
 });
+
 
 module.exports = router;
